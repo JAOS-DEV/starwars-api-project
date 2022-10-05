@@ -1,21 +1,21 @@
 import React from 'react';
 import { TEST_DATA } from './testData';
 
-const useStarwarsApi = (url?: string) => {
-  const BASE_URL = 'https://swapi.dev/api/';
-  const TEST_URL = 'https://swapi.dev/api/planets/1/';
+export const BASE_URL = 'https://swapi.dev/api/';
+export const TEST_URL = 'https://swapi.dev/api/planets/1/';
 
-  const [data, setData] = React.useState<any>(null);
-  const [error, setError] = React.useState<any>(null);
-  const [loading, setLoading] = React.useState<boolean>(false);
+const useStarwarsApi = () => {
+  const [data, setData] = React.useState<any>('');
+  const [error, setError] = React.useState<any>();
+  const [loading, setLoading] = React.useState<boolean>(true);
+  const [searchTerm, setSearchTerm] = React.useState<string>('');
 
   React.useEffect(() => {
     const fetchData = async () => {
-      setLoading(true);
       try {
-        // const response = await fetch(BASE_URL + url);
-        // const json = await response.json();
-        setData(TEST_DATA);
+        const response = await fetch(BASE_URL + searchTerm);
+        const json = await response.json();
+        setData(json);
       } catch (error) {
         setError(error);
       } finally {
@@ -23,9 +23,9 @@ const useStarwarsApi = (url?: string) => {
       }
     };
     fetchData();
-  }, [url]);
+  }, [searchTerm]);
 
-  return { data, error, loading };
+  return { data, error, loading, searchTerm, setSearchTerm, setData };
 };
 
 export default useStarwarsApi;

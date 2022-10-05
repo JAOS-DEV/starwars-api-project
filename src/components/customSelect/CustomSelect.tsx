@@ -1,8 +1,14 @@
 import React, { CSSProperties } from 'react';
 import Select from 'react-select';
-import { SelectOptionTypes } from './customeSelectTypes';
+import { BASE_URL } from '../../api/useStarwarsApi';
+import { SelectOptionTypes } from './customSelectTypes';
 
-export const CustomSelect = () => {
+interface DisplayDataProps {
+  data: any;
+  setData: any;
+  setSearchTerm: any;
+}
+export const CustomSelect: React.FC<DisplayDataProps> = ({ data: ApiData, setData, setSearchTerm }) => {
   const options: SelectOptionTypes[] = [
     { value: 'people', label: 'People' },
     { value: 'films', label: 'Films' },
@@ -38,17 +44,25 @@ export const CustomSelect = () => {
   );
 
   const customStyles = {
-    control: (provided: any, state: any) => ({
+    container: (provided: any) => ({
       ...provided,
       width: 500,
+    }),
+    control: (provided: any, state: any) => ({
+      ...provided,
+      width: '100%',
+      maxWidth: 500,
     }),
     option: (provided: any, state: any) => ({
       ...provided,
-      width: 500,
+      width: '100%',
+      maxWidth: 500,
+      color: 'red',
     }),
     menu: (provided: any, state: any) => ({
       ...provided,
-      width: 500,
+      width: '100%',
+      maxWidth: 500,
     }),
     menuList: (provided: any, state: any) => ({
       ...provided,
@@ -56,5 +70,14 @@ export const CustomSelect = () => {
     }),
   };
 
-  return <Select styles={customStyles} defaultValue={'default value'} options={options} formatGroupLabel={formatGroupLabel} />;
+  const handleChange = (e: any) => {
+    const { value } = e;
+    if (value) {
+      setSearchTerm(value);
+    }
+  };
+
+  return (
+    <Select onChange={handleChange} styles={customStyles} defaultValue={'default value'} options={options} formatGroupLabel={formatGroupLabel} />
+  );
 };

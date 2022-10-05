@@ -6,8 +6,12 @@
 
 .App {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: center;
-  text-align: center;
   height: 100vh;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  color: #fff;
 }
