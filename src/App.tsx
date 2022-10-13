@@ -11,8 +11,15 @@ import starwarsLogo from './images/starwars-logo.jpeg';
 // http swapi.dev/api/planets/1/
 
 function App() {
+<<<<<<< HEAD
   const { data, searchTerm, setSearchTerm } = useStarwarsApi();
 
+=======
+  const { data, setData, error, loading, searchTerm, setSearchTerm } = useStarwarsApi();
+  console.log(data);
+
+  if (loading) return <div>Loading...</div>;
+>>>>>>> 9ac253361a202df7a00828cbcc27a79e25e465d4
   return (
     <div style={{ backgroundColor: 'black' }}>
       <Container maxWidth="lg">
@@ -30,10 +37,18 @@ function App() {
             color: '#fff',
           }}
         >
+<<<<<<< HEAD
           <CustomSelect setSearchTerm={setSearchTerm} />
           <div>
             <h1>Star Wars API</h1>
             <DisplayData data={data} searchTerm={searchTerm} />
+=======
+          <CustomSelect data={data} setData={setData} setSearchTerm={setSearchTerm} />
+          <div>
+            <h1>Star Wars API</h1>
+            <h3>Selected:</h3>
+            <DisplayData data={data} setData={setData} />
+>>>>>>> 9ac253361a202df7a00828cbcc27a79e25e465d4
           </div>
         </Box>
       </Container>

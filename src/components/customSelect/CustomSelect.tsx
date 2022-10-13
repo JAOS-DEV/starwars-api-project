@@ -1,11 +1,23 @@
 import React, { CSSProperties } from 'react';
 import Select from 'react-select';
+<<<<<<< HEAD
 import { SelectOptionTypes } from './customSelectTypes';
 
 interface CustomSelectProps {
   setSearchTerm: any;
 }
 export const CustomSelect: React.FC<CustomSelectProps> = ({ setSearchTerm }) => {
+=======
+import { BASE_URL } from '../../api/useStarwarsApi';
+import { SelectOptionTypes } from './customSelectTypes';
+
+interface DisplayDataProps {
+  data: any;
+  setData: any;
+  setSearchTerm: any;
+}
+export const CustomSelect: React.FC<DisplayDataProps> = ({ data: ApiData, setData, setSearchTerm }) => {
+>>>>>>> 9ac253361a202df7a00828cbcc27a79e25e465d4
   const options: SelectOptionTypes[] = [
     { value: 'people', label: 'People' },
     { value: 'films', label: 'Films' },
