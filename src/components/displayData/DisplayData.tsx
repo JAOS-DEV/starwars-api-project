@@ -1,5 +1,14 @@
-import React from 'react';
-import { FilmTypes, PeopleTypes, PlanetTypes, SpeciesTypes, StarshipTypes, StarwarsApiTypes, VehicleTypes } from '../../api/starwarsApiTypes';
+import React, { useEffect } from 'react';
+import {
+  FilmTypes,
+  PeopleTypes,
+  PlanetTypes,
+  SpeciesTypes,
+  StarWarsSelectTypes,
+  StarshipTypes,
+  StarwarsApiTypes,
+  VehicleTypes,
+} from '../../api/starwarsApiTypes';
 
 interface DisplayDataProps {
   data: StarwarsApiTypes | undefined;
@@ -9,14 +18,14 @@ interface DisplayDataProps {
 
 export const DisplayData: React.FC<DisplayDataProps> = ({ data, searchTerm }) => {
   const searchTermCapitalized = searchTerm.charAt(0).toUpperCase() + searchTerm.slice(1);
+  console.log(`renderData`, data);
 
-  const renderData = ({ data, searchTerm, loading }: any) => {
+  const renderData = ({ data, searchTerm }: DisplayDataProps) => {
     const results = data?.results;
-    if (loading) {
-      return <div>Loading...</div>;
-    }
-    if (searchTerm === 'planets') {
-      return results?.map((item: any, index: any): any => (
+    console.log(`results`, results);
+
+    if (searchTerm === StarWarsSelectTypes.planets) {
+      return results?.map((item, index) => (
         <div key={index}>
           <h3>Planet Name: {item?.name}</h3>
           <h3>Climate: {item?.climate}</h3>
@@ -25,8 +34,8 @@ export const DisplayData: React.FC<DisplayDataProps> = ({ data, searchTerm }) =>
         </div>
       ));
     }
-    if (searchTerm === 'people') {
-      return results?.map((item: any, index: number) => (
+    if (searchTerm === StarWarsSelectTypes.people) {
+      return results?.map((item, index) => (
         <div key={index}>
           <h3>Name: {item?.name}</h3>
           <h3>Height: {item?.height}</h3>
@@ -35,8 +44,8 @@ export const DisplayData: React.FC<DisplayDataProps> = ({ data, searchTerm }) =>
         </div>
       ));
     }
-    if (searchTerm === 'films') {
-      return results?.map((item: any, index: number) => (
+    if (searchTerm === StarWarsSelectTypes.films) {
+      return results?.map((item, index) => (
         <div key={index}>
           <h3>Title: {item?.title}</h3>
           <h3>Director: {item?.director}</h3>
@@ -45,8 +54,8 @@ export const DisplayData: React.FC<DisplayDataProps> = ({ data, searchTerm }) =>
         </div>
       ));
     }
-    if (searchTerm === 'species') {
-      return results?.map((item: any, index: number) => (
+    if (searchTerm === StarWarsSelectTypes.species) {
+      return results?.map((item, index) => (
         <div key={index}>
           <h3>Name: {item?.name}</h3>
           <h3>Classification: {item?.classification}</h3>
@@ -55,8 +64,8 @@ export const DisplayData: React.FC<DisplayDataProps> = ({ data, searchTerm }) =>
         </div>
       ));
     }
-    if (searchTerm === 'vehicles') {
-      return results?.map((item: any, index: number) => (
+    if (searchTerm === StarWarsSelectTypes.vehicles) {
+      return results?.map((item, index) => (
         <div key={index}>
           <h3>Name: {item?.name}</h3>
           <h3>Model: {item?.model}</h3>
@@ -65,8 +74,8 @@ export const DisplayData: React.FC<DisplayDataProps> = ({ data, searchTerm }) =>
         </div>
       ));
     }
-    if (searchTerm === 'starships') {
-      return results?.map((item: any, index: number) => (
+    if (searchTerm === StarWarsSelectTypes.starships) {
+      return results?.map((item, index) => (
         <div key={index}>
           <h3>Name: {item?.name}</h3>
           <h3>Model: {item?.model}</h3>
@@ -77,12 +86,16 @@ export const DisplayData: React.FC<DisplayDataProps> = ({ data, searchTerm }) =>
     }
   };
 
-  console.log(data);
+  // useEffect(() => {
+  //   renderData({ data, searchTerm });
+  //   console.log(`data useEffect: `, data);
+  // }, [data, searchTerm]);
+
   return (
     <div>
       <h1>{searchTermCapitalized}</h1>
       <hr />
-      {renderData(data)}
+      {renderData({ data, searchTerm })}
     </div>
   );
 };

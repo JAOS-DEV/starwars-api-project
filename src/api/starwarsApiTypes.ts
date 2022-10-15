@@ -8,7 +8,7 @@ export interface InitialApiTypes {
   vehicles?: string;
 }
 
-export interface PeopleTypes {
+export type PeopleTypes = {
   birth_year: string;
   created: string;
   edited: string;
@@ -25,9 +25,9 @@ export interface PeopleTypes {
   starships: string[];
   url: string;
   vehicles: string[];
-}
+};
 
-export interface FilmTypes {
+export type FilmTypes = {
   title: string;
   episode_id: number;
   opening_crawl: string;
@@ -42,9 +42,9 @@ export interface FilmTypes {
   created: string;
   edited: string;
   url: string;
-}
+};
 
-export interface StarshipTypes {
+export type StarshipTypes = {
   MGLT: string;
   cargo_capacity: string;
   consumables: string;
@@ -63,9 +63,9 @@ export interface StarshipTypes {
   pilots: string[];
   starship_class: string;
   url: string;
-}
+};
 
-export interface VehicleTypes {
+export type VehicleTypes = {
   cargo_capacity: string;
   consumables: string;
   cost_in_credits: string;
@@ -82,9 +82,9 @@ export interface VehicleTypes {
   pilots: string[];
   url: string;
   vehicle_class: string;
-}
+};
 
-export interface SpeciesTypes {
+export type SpeciesTypes = {
   average_height: string;
   average_lifespan: string;
   classification: string;
@@ -100,9 +100,10 @@ export interface SpeciesTypes {
   people: string[];
   skin_colors: string;
   url: string;
-}
+  type: 'species';
+};
 
-export interface PlanetTypes {
+export type PlanetTypes = {
   climate: string;
   created: string;
   diameter: string;
@@ -117,11 +118,25 @@ export interface PlanetTypes {
   surface_water: string;
   terrain: string;
   url: string;
+  type: 'planet';
+};
+
+export enum StarWarsSelectTypes {
+  people = 'people',
+  films = 'films',
+  starships = 'starships',
+  vehicles = 'vehicles',
+  species = 'species',
+  planets = 'planets',
 }
+
+// export type ApiResultsTypes = {
+//   results: PeopleTypes[] | FilmTypes[] | StarshipTypes[] | VehicleTypes[] | SpeciesTypes[] | PlanetTypes[];
+// };
 
 export interface StarwarsApiTypes extends InitialApiTypes {
   count: number;
-  next: string;
-  previous: string;
-  results: PeopleTypes[] | FilmTypes[] | StarshipTypes[] | VehicleTypes[] | SpeciesTypes[] | PlanetTypes[];
+  next: string | null;
+  previous: string | null;
+  results: (PeopleTypes | FilmTypes | StarshipTypes | VehicleTypes | SpeciesTypes | PlanetTypes)[];
 }
