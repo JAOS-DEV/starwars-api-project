@@ -68,9 +68,9 @@ export const CustomSelect: React.FC<CustomSelectProps> = ({ setSearchTerm }) => 
   };
 
   const handleChange = (e: any) => {
-    const { value } = e;
-    if (value) {
-      setSearchTerm(value);
+    const { value: selected } = e;
+    if (selected) {
+      setSearchTerm(selected);
     }
   };
 

@@ -1,3 +1,11 @@
+import Button from '@mui/material/Button';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Paper from '@mui/material/Paper';
 import React, { useEffect } from 'react';
 import {
   FilmTypes,
@@ -12,27 +20,58 @@ import {
 
 interface DisplayDataProps {
   data: StarwarsApiTypes | undefined;
-  searchTerm: string;
+  searchTerm: StarWarsSelectTypes | string;
   loading?: boolean;
+  nextPage?: string | null;
+  prevPage?: string | null;
+  setNextPage?: React.Dispatch<React.SetStateAction<any>>;
+  setPrevPage?: React.Dispatch<React.SetStateAction<any>>;
+  setCurrentUrl?: React.Dispatch<React.SetStateAction<string>>;
 }
 
-export const DisplayData: React.FC<DisplayDataProps> = ({ data, searchTerm }) => {
+export const DisplayData: React.FC<DisplayDataProps> = ({ data, searchTerm, nextPage, prevPage, setNextPage, setPrevPage, setCurrentUrl }) => {
   const searchTermCapitalized = searchTerm.charAt(0).toUpperCase() + searchTerm.slice(1);
-  console.log(`renderData`, data);
 
   const renderData = ({ data, searchTerm }: DisplayDataProps) => {
     const results = data?.results;
-    console.log(`results`, results);
 
     if (searchTerm === StarWarsSelectTypes.planets) {
-      return results?.map((item, index) => (
-        <div key={index}>
-          <h3>Planet Name: {item?.name}</h3>
-          <h3>Climate: {item?.climate}</h3>
-          <h3>Population: {item?.population}</h3>
-          <hr />
-        </div>
-      ));
+      return (
+        <TableContainer component={Paper}>
+          <Table sx={{ minWidth: 650 }} aria-label="simple table">
+            <TableHead>
+              <TableRow>
+                <TableCell>{searchTermCapitalized}</TableCell>
+                <TableCell align="right">Climate</TableCell>
+                <TableCell align="right">Diameter</TableCell>
+                <TableCell align="right">Gravity</TableCell>
+                <TableCell align="right">Orbital Period</TableCell>
+                <TableCell align="right">Population</TableCell>
+                <TableCell align="right">Rotation Period</TableCell>
+                <TableCell align="right">Surface Water</TableCell>
+                <TableCell align="right">Terrain</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {results?.map((item, index) => (
+                <TableRow key={index} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                  <TableCell component="th" scope="row">
+                    {item.name}
+                  </TableCell>
+                  <TableCell align="right">{item.climate}</TableCell>
+                  <TableCell align="right">{item.diameter}</TableCell>
+                  <TableCell align="right">{item.gravity}</TableCell>
+                  <TableCell align="right">{item.orbital_period}</TableCell>
+                  <TableCell align="right">{item.population}</TableCell>
+                  <TableCell align="right">{item.rotation_period}</TableCell>
+                  <TableCell align="right">{item.surface_water}</TableCell>
+                  <TableCell align="right">{item.terrain}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      );
     }
     if (searchTerm === StarWarsSelectTypes.people) {
       return results?.map((item, index) => (
@@ -86,16 +125,33 @@ export const DisplayData: React.FC<DisplayDataProps> = ({ data, searchTerm }) =>
     }
   };
 
-  // useEffect(() => {
-  //   renderData({ data, searchTerm });
-  //   console.log(`data useEffect: `, data);
-  // }, [data, searchTerm]);
+  const handleNextPage = () => {
+    nextPage && setCurrentUrl && setCurrentUrl(nextPage);
+  };
+
+  useEffect(() => {
+    renderData({ data, searchTerm });
+  }, [data, searchTerm]);
 
   return (
-    <div>
-      <h1>{searchTermCapitalized}</h1>
-      <hr />
-      {renderData({ data, searchTerm })}
-    </div>
+    <>
+      <div>
+        <h1>{searchTermCapitalized}</h1>
+        <hr />
+        {renderData({ data, searchTerm })}
+      </div>
+      <Button
+        variant="contained"
+        onClick={() => {
+          console.log('clicked');
+          setNextPage!(data?.previous!);
+        }}
+      >
+        Prev Page
+      </Button>
+      <Button variant="contained" onClick={handleNextPage}>
+        Next Page
+      </Button>
+    </>
   );
 };
